@@ -47,7 +47,10 @@ const DashboardNavBar = ({children}: {children: ReactNode}) => {
           </SheetContent>
         </Dialog>
       </header>
-      {children}
+      <section>
+        {children}
+      </section>
+      
     </div>
   )
 }

@@ -4,16 +4,19 @@
 
 ## Getting Started
 
-First, run the development server:
+- First install the npm packages.
 
 ```bash
+npm i
+```
+- Add the connection string to the .env file.
+
+```bash
+DATABASE_URL="postgresql://<Your-postgres-user>:<Your-password>@localhost:5432/<Your-Schema>?schema=public"
+```
+- Run the project
+```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

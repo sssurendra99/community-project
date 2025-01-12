@@ -50,7 +50,6 @@ const DashboardNavBar = ({children}: {children: ReactNode}) => {
       <section>
         {children}
       </section>
-      
     </div>
   )
 }

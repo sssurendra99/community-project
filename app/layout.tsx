@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "WhereMe",
-  description: "We sell cloths, women, men, discount, belihuloya, Sri Lanka",
+  description: "We sell cloths, women, men, discount, belihuloya",
 };
 
 export default function RootLayout({

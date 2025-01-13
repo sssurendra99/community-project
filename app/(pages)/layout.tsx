@@ -5,11 +5,16 @@ import Footer from '../components/Footer';
 const PublicLayout = ({children}: {children: ReactNode}) => {
   return (
     <div>
-        <Header />
+        <header>
+            <Header />
+        </header>
         <main>
             {children}
         </main>
-        <Footer />
+        <footer>
+            <Footer />
+        </footer>
+        
     </div>
   )
 }

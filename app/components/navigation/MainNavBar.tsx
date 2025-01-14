@@ -10,7 +10,7 @@ const MainNavBar = () => {
         <Link href="/collections/workwear" className='px-4'>WORKWEAR</Link>
         <Link href="/collections/denim" className='px-4'>DENIM</Link>
         <Link href="/" className='px-4'>SCYLLA ZELUS</Link>
-        <Link href="/men" className='px-4'>SHOP MEN</Link>
+        <Link href="/collections/men" className='px-4'>SHOP MEN</Link>
         <Link href="/" className='px-4'>50% -70% OFF</Link>
         <Link href="/" className='px-4'>ANGEL CLUB</Link>
     </div>

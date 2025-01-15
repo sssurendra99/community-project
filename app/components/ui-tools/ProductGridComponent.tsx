@@ -12,10 +12,14 @@ import { Grid, List, LayoutGrid, Columns } from "lucide-react"
 import ProductCard from './ProductCard';
 import { Product } from '@/app/types/product';
 
-const ProductGrid = ({ products} : {products: any}) => {
+const ProductGrid = ({ products} : {products: Product[]}) => {
   const [viewMode, setViewMode] = useState('grid-4')
   const [itemsPerPage, setItemsPerPage] = useState(20)
   const [sortBy, setSortBy] = useState('date-new')
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value));
+  };
 
   const getGridClass = () => {
     switch (viewMode) {
@@ -33,9 +37,7 @@ const ProductGrid = ({ products} : {products: any}) => {
         <h1 className="text-2xl font-bold border-b-[1px] pb-5 tracking-wider">NEW ARRIVALS</h1>
         
         {/* Filters section. */}
-        <div className="flex flex-row items-center justify-between">
-        
-
+        <div className="flex flex-row items-center justify-between text-xs">
           <div className="flex items-center gap-2 ">
             <span className="text-sm">VIEW AS</span>
             <div className="flex gap-1">
@@ -69,14 +71,14 @@ const ProductGrid = ({ products} : {products: any}) => {
           <div className='flex gap-5 py-4'>
             <div className="flex items-center gap-2">
                 <span className="text-sm">ITEMS PER PAGE</span>
-                <Select value={itemsPerPage} onValueChange={setItemsPerPage}>
+                <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
                 <SelectTrigger className="w-24 rounded-none">
                     <SelectValue placeholder="20" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value={20}>20</SelectItem>
-                    <SelectItem value={40}>40</SelectItem>
-                    <SelectItem value={60}>60</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="40">40</SelectItem>
+                    <SelectItem value="60">60</SelectItem>
                 </SelectContent>
                 </Select>
             </div>
@@ -96,13 +98,12 @@ const ProductGrid = ({ products} : {products: any}) => {
                 </Select>
             </div>
           </div>
-          
         </div>
       </div>
 
       <div className={getGridClass()}>
-        {products.map((product: Product) => (
-          <ProductCard product={product} key={product.id}/>
+        {products.map((product) => (
+          <ProductCard product={product} key={product.id} />
         ))}
       </div>
     </div>

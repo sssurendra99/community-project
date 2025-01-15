@@ -12,7 +12,7 @@ const CollectionLayout = ({children}: {children: ReactNode}) => {
             <div className='w-1/5'>
                 <AccordionComponent />
             </div>
-            <div>{children}</div>
+            <div className='w-full'>{children}</div>
         </div>
     </div>
   )

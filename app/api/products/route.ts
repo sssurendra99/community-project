@@ -1,6 +1,6 @@
 // app/api/products/route.ts
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { prisma } from '../../../lib/prisma';
 import { Decimal } from '@prisma/client/runtime/library';
 
 export async function POST(request: Request) {

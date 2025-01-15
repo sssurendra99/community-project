@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { uploadProductImage } from '../../../.../../../lib/image_upload';
+import { uploadProductImage } from '../../../../../lib/image_upload';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();

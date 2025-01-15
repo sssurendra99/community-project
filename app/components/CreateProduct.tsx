@@ -134,7 +134,6 @@ export default function CreateProduct() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 w-full">
-      <Card className="p-6">
         {error && (
           <Alert variant="destructive" className="mb-6">
             <AlertCircle className="h-4 w-4" />
@@ -232,9 +231,7 @@ export default function CreateProduct() {
           <div className="space-y-2">
             <Label>Product Images</Label>
             <div className="mt-2">
-            <ImageUpload
-                              onUploadComplete={(image: UploadedImage) => setImages([...images, image])} // Explicitly set the boolean value
-                              productId={0}                />
+            <ImageUpload onUploadComplete={(image: UploadedImage) => setImages([...images, image])} productId={0} />
             </div>
             {images.length > 0 && (
               <div className="grid grid-cols-4 gap-4 mt-4">
@@ -272,7 +269,6 @@ export default function CreateProduct() {
             </Button>
           </div>
         </form>
-      </Card>
     </div>
   );
 }

@@ -1,15 +1,23 @@
-// types/product.ts
 export interface Product {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  sku: string;
-  stock: number;
-  brandId: string | null;
-  categoryId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+    id: string;
+    productName: string;
+    description: string | null;
+    price: number;
+    sku: string;
+    stock: number;
+    brandId: string | null;
+    categoryId: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    isNew?: boolean;
+    colors?: string[];
+    brand?: {
+        name: string;
+    };
+    images?: {
+        publicUrl: string;
+        altText?: string;
+    }[];
 }
 
 export interface ProductImage {

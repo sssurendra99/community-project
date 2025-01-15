@@ -1,9 +1,7 @@
 // app/api/products/route.ts
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../../lib/prisma';
 import { Decimal } from '@prisma/client/runtime/library';
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
@@ -45,6 +43,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(product);
+
   } catch (error) {
     console.error('Error creating product:', error);
     return NextResponse.json(

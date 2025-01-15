@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import fs from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
-
-const prisma = new PrismaClient();
 
 interface ImageUploadResult {
   filename: string;

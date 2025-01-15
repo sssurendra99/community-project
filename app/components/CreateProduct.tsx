@@ -14,12 +14,9 @@ import {
 } from "@/components/ui/select";
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Category } from '../types/product';
+import Image from 'next/image';
 
-// Define interfaces
-interface Category {
-  id: string;
-  name: string;
-}
 
 interface FormData {
   name: string;
@@ -35,9 +32,9 @@ interface UploadedImage extends File {
   url?: string;
 }
 
-interface ImageUploadProps {
-  onUploadComplete: (image: UploadedImage) => void;
-}
+// interface ImageUploadProps {
+//   onUploadComplete: (image: UploadedImage) => void;
+// }
 
 export default function CreateProduct() {
   const [loading, setLoading] = useState(false);
@@ -243,7 +240,7 @@ export default function CreateProduct() {
               <div className="grid grid-cols-4 gap-4 mt-4">
                 {images.map((image, index) => (
                   <div key={index} className="relative">
-                    <img
+                    <Image
                       src={URL.createObjectURL(image)}
                       alt={`Product image ${index + 1}`}
                       className="rounded-lg w-full h-32 object-cover"

@@ -19,9 +19,9 @@ const ProductCard = ({product}: {product: Product}) => {
             
         </CardHeader>
         <CardContent className="text-center">
-            <p className="text-sm text-gray-400">KELLY FELDER</p>
+            <p className="text-sm text-gray-400">{product.brand?.name.toUpperCase()}</p>
             <span className="text-sm text-gray-800">Boho Breeze Linen Dress - Cream</span>
-            <p className="text-gray-800 font-semibold py-3">Rs 7,500.00</p>
+            <p className="text-gray-800 font-semibold py-3">Rs {product.price}</p>
         </CardContent>
         <CardFooter>
             <div className="flex flex-row items-center justify-center w-full">

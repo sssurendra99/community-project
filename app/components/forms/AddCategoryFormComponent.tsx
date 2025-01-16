@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -27,7 +28,8 @@ const formSchema = z.object({
 
 const AddCategoryFormComponent = () => {
 
-  //
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,16 +41,28 @@ const AddCategoryFormComponent = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    const response = await fetch('/api/categories/', {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: {
-          "content-type": "application/json"
+    try {
+      setIsSubmitting(true);
+      const response = await fetch('/api/categories', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json" 
         },
+      });
 
-    });
+      if (!response.ok) {
+        throw new Error('Failed to create category');
+      }
 
-    console.log(response)
+      const data = await response.json();
+      console.log('Category created:', data);
+      form.reset();
+    } catch (error) {
+      console.error('Error creating category:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

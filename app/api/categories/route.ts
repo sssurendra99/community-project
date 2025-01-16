@@ -1,13 +1,40 @@
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-export default async function POST(request: Request) {
+export async function POST(request: Request) {
 
-  const data = await request.json();
-  console.log(data)
-  const category = prisma.category.create({
+  try {
+    const data = await request.json();
+    
+    const category = await prisma.category.create({
       data: {
         name: data.name,
         slug: data.slug,
-        description: data.description}});
-  console.log(category);
+        description: data.description
+      }
+    });
+    
+    return NextResponse.json(category);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to create category" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const data = await prisma.category.findMany();
+    return NextResponse.json(data);
+  } catch(error) {
+    return NextResponse.json(
+      {
+        error: "Failed to fetch categories!"
+      },
+      {
+        status: 500
+      }
+    )
+  }
 }

@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
- 
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -14,7 +13,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { prisma } from "../../../lib/prisma"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -26,8 +24,10 @@ const formSchema = z.object({
   description: z.string(),
 });
 
+
 const AddCategoryFormComponent = () => {
 
+  //
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,16 +36,19 @@ const AddCategoryFormComponent = () => {
       description: "",
     },
   })
- 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const category = prisma.category.create({
-      data: {
-        name: values.name,
-        slug: values.slug,
-        description: values.description,
-      }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    const response = await fetch('/api/categories/', {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: {
+          "content-type": "application/json"
+        },
+
     });
-    console.log(category)
+
+    console.log(response)
   }
 
   return (

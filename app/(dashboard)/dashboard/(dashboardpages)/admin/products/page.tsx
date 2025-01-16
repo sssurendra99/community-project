@@ -15,7 +15,7 @@ import React from 'react'
 
 const ProductPage = () => {
   return (
-    <div>
+    <>
       <div className='w-full flex justify-end gap-4'>
         <div>
           <Dialog>
@@ -51,7 +51,7 @@ const ProductPage = () => {
       <div>
 
       </div>
-    </div>
+    </>
   )
 }
 

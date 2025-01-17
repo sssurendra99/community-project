@@ -4,7 +4,6 @@ import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { 
-  HomeIcon, 
   ShoppingCartIcon, 
   LayoutDashboard,
   Users,
@@ -13,11 +12,19 @@ import {
   Settings,
   TagIcon,
   Package,
-  Bell,
-  FileText,
   Image,
   BadgePercent,
 } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 const DashboardSideBar = () => {
   const pathname = usePathname()

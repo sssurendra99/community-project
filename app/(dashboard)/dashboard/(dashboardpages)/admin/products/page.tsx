@@ -1,7 +1,7 @@
 'use client'
 
 import CreateProduct from '@/app/components/CreateProduct';
-import AddCategoryFormComponent from '@/app/components/forms/AddCategoryFormComponent';
+import { Category } from '@/app/types/product';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
@@ -10,15 +10,55 @@ import {
   DialogHeader, 
   DialogTitle, 
   DialogTrigger } from '@/components/ui/dialog';
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { getStatusColor } from '@/utils/getStatusColor';
 import { AlertTriangle, Package, PlusIcon } from 'lucide-react';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+
+interface ProductResponseInterface {
+  id: string,
+  name: string,
+  category: string,
+  stock: number,
+  price: number,
+  status: string,
+}
 
 const ProductPage = () => {
 
   const [lowStockItems, setLowStockItems] = React.useState(0);
   const [totalProducts, setTotalProducts] = React.useState(0);
   const [activeProducts, setActiveProducts] = React.useState(0);
+  
+  const [products, setProducts] = useState<ProductResponseInterface[]>([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/dashboard/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        setProducts(data);
+        setTotalProducts(data.length)
+        setLowStockItems(data.length)
+        console.log(data)
+      
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
 
   return (
     <>
@@ -83,21 +123,38 @@ const ProductPage = () => {
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4">Product Name</th>
-                  <th className="text-left p-4">Category</th>
-                  <th className="text-left p-4">Stock</th>
-                  <th className="text-left p-4">Price</th>
-                  <th className="text-left p-4">Status</th>
-                  <th className="text-left p-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Product rows will be mapped here */}
-              </tbody>
-            </table>
+
+            <Table>
+              <TableHeader>
+                <TableRow className='border-b'>
+                  <TableHead className="text-left p-4 text-black">Product Name</TableHead>
+                  <TableHead className="text-left p-4 text-black">Category</TableHead>
+                  <TableHead className="text-left p-4 text-black">Stock</TableHead>
+                  <TableHead className="text-left p-4 text-black">Price</TableHead>
+                  <TableHead className="text-left p-4 text-black">Status</TableHead>
+                  <TableHead className="text-left p-4 text-black">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {
+                  products.map((product) => (
+                    <TableRow key={product.id}>
+                  <TableCell className='text-left p-4'>{product.name}</TableCell>
+                  <TableCell className='text-left p-4'>{product.category}</TableCell>
+                  <TableCell className='text-left p-4'>{product.stock}</TableCell>
+                  <TableCell className='text-left p-4'>{product.price}</TableCell>
+                  <TableCell className='text-left p-4'>
+                    <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(product.status)}`}>
+                        {product.status}
+                    </span>
+                  </TableCell>
+                  <TableCell className='text-left p-4'>Hello</TableCell>
+                </TableRow>
+                  ))
+                }
+                
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>

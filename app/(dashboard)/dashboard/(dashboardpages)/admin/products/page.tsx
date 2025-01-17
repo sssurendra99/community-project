@@ -27,21 +27,6 @@ const ProductPage = () => {
           <Dialog>
             <DialogTrigger asChild>
               <Button className='bg-black text-white font-semibold hover:bg-blue-900'>
-                <PlusIcon strokeWidth={4}/>Add Category
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Add Category</DialogTitle>
-              </DialogHeader>
-                <AddCategoryFormComponent />
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className='bg-black text-white font-semibold hover:bg-blue-900'>
                 <PlusIcon strokeWidth={4}/>Add Product
               </Button>
             </DialogTrigger>

@@ -81,7 +81,7 @@ const DashboardSideBar = () => {
                 href={'/dashboard/admin/products'}
               >
                 <div className='border rounded-lg border-[#E5E9F0] p-1 bg-[#ECEFF4]'>
-                  <ShoppingCartIcon className='h-3 w-3 text-[#2E3440]' strokeWidth={4} />
+                  <ShoppingCartIcon className='h-3 w-3 text-[#2E3440]' />
                 </div>
                 Products
               </Link>

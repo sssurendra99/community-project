@@ -1,6 +1,5 @@
 "use client";
 
-import CreateProduct from "@/app/components/CreateProduct";
 import AddProductFormComponent from "@/app/components/forms/AddProductFormComponent";
 import { Category } from "@/app/types/product";
 import { Button } from "@/components/ui/button";

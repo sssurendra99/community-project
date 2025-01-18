@@ -21,6 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { ScrollBar } from "@/components/ui/scroll-area";
 
 // Define the variant schema
 const variantSchema = z.object({
@@ -296,107 +299,112 @@ const AddProductFormComponent = () => {
               </Button>
             </div>
 
-            {fields.map((field, index) => (
-              <Card key={field.id}>
-                <CardContent className="pt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name={`variants.${index}.size`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Size</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Size" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+            <div className="max-h-[250px] overflow-auto rounded-none">
+              {fields.map((field, index) => (
+                <Card key={field.id} className="rounded-none mx-2">
+                  <CardContent className="p-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`variants.${index}.size`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Size</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Size" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name={`variants.${index}.color`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Color</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Color" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name={`variants.${index}.color`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Color</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Color" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name={`variants.${index}.stockQuantity`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Stock Quantity</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="0"
-                              {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value))
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name={`variants.${index}.stockQuantity`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Stock Quantity</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="0"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value))
+                                }
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name={`variants.${index}.priceAdjustment`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Price Adjustment</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="0.00"
-                              {...field}
-                              onChange={(e) =>
-                                field.onChange(parseFloat(e.target.value))
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name={`variants.${index}.priceAdjustment`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Price Adjustment</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="0.00"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseFloat(e.target.value))
+                                }
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name={`variants.${index}.sku`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Variant SKU</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter variant SKU" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name={`variants.${index}.sku`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Variant SKU</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter variant SKU"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <div className="flex items-end">
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        onClick={() => remove(index)}
-                      >
-                        Remove Variant
-                      </Button>
+                      <div className="flex items-end">
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          onClick={() => remove(index)}
+                        >
+                          Remove Variant
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
 
           <Button type="submit" disabled={isSubmitting}>

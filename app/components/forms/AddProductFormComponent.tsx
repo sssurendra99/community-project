@@ -21,11 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ScrollBar } from "@/components/ui/scroll-area";
+import ImageUpload from "../ImageUpload";
 
-// Define the variant schema
 const variantSchema = z.object({
   size: z.string().optional(),
   color: z.string().optional(),
@@ -34,7 +31,6 @@ const variantSchema = z.object({
   sku: z.string().min(1, "SKU is required"),
 });
 
-// Define the product schema
 const productFormSchema = z.object({
   productName: z.string().min(2, {
     message: "Product name must be at least 2 characters.",
@@ -58,6 +54,43 @@ const AddProductFormComponent = () => {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
     []
   );
+  const [productId, setProductId] = useState<string | null>(null)
+
+  const handleUpload = async (files: File[]) => {
+    if(!productId){
+      console.error("Product ID is not available!")
+      return;
+    }
+    try {
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
+      
+      // Add productId to identify the upload folder
+      formData.append('productId', productId);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      // data.files will contain the URLs of the uploaded files
+      console.log('Uploaded files:', data.files);
+      
+      // You can update your product with these new image URLs here
+      
+    } catch (error) {
+      console.error('Upload error:', error);
+      // Handle error appropriately
+    }
+  }
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -116,6 +149,8 @@ const AddProductFormComponent = () => {
 
       const data = await response.json();
       console.log("Product created:", data);
+      setProductId(data.productId);
+      console.log("productId:", data.productId)
       form.reset();
     } catch (error) {
       console.error("Error creating product:", error);
@@ -401,6 +436,7 @@ const AddProductFormComponent = () => {
                         </Button>
                       </div>
                     </div>
+                    <ImageUpload onUpload={handleUpload} />
                   </CardContent>
                 </Card>
               ))}

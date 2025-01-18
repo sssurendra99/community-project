@@ -1,7 +1,7 @@
 "use client";
 
+import AddBrandFormComponent from "@/app/components/forms/AddBrandFormComponent";
 import AddProductFormComponent from "@/app/components/forms/AddProductFormComponent";
-import { Category } from "@/app/types/product";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -74,6 +74,20 @@ const ProductPage = () => {
                 <DialogTitle>Create New Product</DialogTitle>
               </DialogHeader>
               <AddProductFormComponent />
+            </DialogContent>
+          </Dialog>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-black text-white font-semibold hover:bg-blue-900">
+                <PlusIcon strokeWidth={4} />
+                Add Brand
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Create New Brand</DialogTitle>
+              </DialogHeader>
+              <AddBrandFormComponent />
             </DialogContent>
           </Dialog>
         </div>

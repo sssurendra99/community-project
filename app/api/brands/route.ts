@@ -16,3 +16,24 @@ export async function GET() {
     );
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const data = await request.json();
+
+    const brand = await prisma.brand.create({
+      data: {
+        name: data.name,
+        slug: data.slug,
+        description: data.description,
+      },
+    });
+
+    return NextResponse.json(brand);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to create Brand!" },
+      { status: 500 }
+    );
+  }
+}

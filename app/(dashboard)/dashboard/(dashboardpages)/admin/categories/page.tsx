@@ -1,36 +1,40 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Edit2, Trash2, Tag, PlusIcon } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import AddCategoryFormComponent from '@/app/components/forms/AddCategoryFormComponent';
+import { Plus, Search, Edit2, Trash2, Tag, PlusIcon } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import AddCategoryFormComponent from "@/app/components/forms/AddCategoryFormComponent";
 
-interface CategoryResponseInterface{
-    id: string,
-    name: string,
-    slug: string,
-    description: string,
-    size: number,
+interface CategoryResponseInterface {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  size: number;
 }
 
-
 const CategoriesPage = () => {
-
-const [categories, setCategories] = useState<CategoryResponseInterface[]>([]);
+  const [categories, setCategories] = useState<CategoryResponseInterface[]>([]);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/categories');
+        const response = await fetch("/api/categories");
         if (!response.ok) {
-          throw new Error('Failed to fetch categories');
+          throw new Error("Failed to fetch categories");
         }
         const data = await response.json();
         setCategories(data);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     };
 
@@ -42,17 +46,18 @@ const [categories, setCategories] = useState<CategoryResponseInterface[]>([]);
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-[#2E3440]">Categories</h1>
         <div>
-            <Dialog>
+          <Dialog>
             <DialogTrigger asChild>
-              <Button className='bg-black text-white font-semibold hover:bg-blue-900'>
-                <PlusIcon strokeWidth={4}/>Add Category
+              <Button className="bg-black text-white font-semibold hover:bg-blue-900">
+                <PlusIcon strokeWidth={4} />
+                Add Category
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Add Category</DialogTitle>
               </DialogHeader>
-                <AddCategoryFormComponent />
+              <AddCategoryFormComponent />
             </DialogContent>
           </Dialog>
         </div>
@@ -95,16 +100,16 @@ const [categories, setCategories] = useState<CategoryResponseInterface[]>([]);
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       className="text-[#5E81AC] hover:text-[#81A1C1]"
                     >
                       <Edit2 className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       className="text-red-500 hover:text-red-600"
                     >
                       <Trash2 className="h-4 w-4" />

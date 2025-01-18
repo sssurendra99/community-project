@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const AddProductFormComponent = () => {
-  return (
-    <div>AddProductFormComponent</div>
-  )
-}
+  return <div>AddProductFormComponent</div>;
+};
 
 export default AddProductFormComponent;

@@ -1,14 +1,14 @@
 // app/api/products/route.ts
-import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
-import { Decimal } from '@prisma/client/runtime/library';
+import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    
+
     // Validate required fields
-    const requiredFields = ['name', 'price', 'sku'];
+    const requiredFields = ["name", "price", "sku"];
     for (const field of requiredFields) {
       if (!data[field]) {
         return NextResponse.json(
@@ -20,12 +20,12 @@ export async function POST(request: Request) {
 
     // Validate SKU uniqueness
     const existingSku = await prisma.product.findUnique({
-      where: { sku: data.sku }
+      where: { sku: data.sku },
     });
 
     if (existingSku) {
       return NextResponse.json(
-        { error: 'SKU must be unique' },
+        { error: "SKU must be unique" },
         { status: 400 }
       );
     }
@@ -43,13 +43,11 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(product);
-
   } catch (error) {
-    console.error('Error creating product:', error);
+    console.error("Error creating product:", error);
     return NextResponse.json(
-      { error: 'Failed to create product' },
+      { error: "Failed to create product" },
       { status: 500 }
     );
   }
 }
-

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ImageUploadProps {
   productId: number;
@@ -16,22 +16,22 @@ export function ImageUpload({ productId, onUploadComplete }: ImageUploadProps) {
     setUploading(true);
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
 
     try {
       const response = await fetch(`/api/products/${productId}/images`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        throw new Error("Upload failed");
       }
 
       const image = await response.json();
       onUploadComplete?.(image);
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
       // Handle error (show toast, etc.)
     } finally {
       setUploading(false);

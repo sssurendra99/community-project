@@ -24,7 +24,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ImageUpload from "../ImageUpload";
 
 const variantSchema = z.object({
-  size: z.string().optional(),
+  size: z.enum(["XS", "S", "M", "L", "XL", "XXL"]),
   color: z.string().optional(),
   stockQuantity: z.number().min(0),
   priceAdjustment: z.number().optional(),
@@ -36,15 +36,23 @@ const productFormSchema = z.object({
     message: "Product name must be at least 2 characters.",
   }),
   description: z.string().optional(),
-  price: z.number().min(0, {
+  price: z.coerce.number().min(0, {
     message: "Price must be a positive number.",
   }),
   sku: z.string().min(1, "SKU is required"),
-  stock: z.number().min(0),
+  stock: z.coerce.number().min(0),
   brandId: z.string().optional(),
   categoryId: z.string().optional(),
   variants: z.array(variantSchema).optional(),
 });
+
+interface VariantIds {
+  [key: number]: string;
+}
+
+interface VariantImageFiles {
+  [key: number]: File[];
+}
 
 type ProductFormValues = z.infer<typeof productFormSchema>;
 
@@ -54,43 +62,58 @@ const AddProductFormComponent = () => {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
     []
   );
-  const [productId, setProductId] = useState<string | null>(null)
+  const [productId, setProductId] = useState<string | null>(null);
+  const [variantIds, setVariantIds] = useState<VariantIds>({});
+  const [variantImageFiles, setVariantImageFiles] = useState<VariantImageFiles>(
+    {}
+  );
 
-  const handleUpload = async (files: File[]) => {
-    if(!productId){
-      console.error("Product ID is not available!")
+  const handleFileSelection = (files: File[], index: number) => {
+    setVariantImageFiles((prev) => ({
+      ...prev,
+      [index]: files,
+    }));
+  };
+
+  const uploadImagesForVariants = async () => {
+    if (!productId || Object.keys(variantIds).length === 0) {
+      console.error("Product or variant IDs not available");
       return;
     }
+
     try {
-      const formData = new FormData();
-      files.forEach((file) => {
-        formData.append('files', file);
-      });
-      
-      // Add productId to identify the upload folder
-      formData.append('productId', productId);
+      const uploadPromises = Object.entries(variantImageFiles).map(
+        async ([index, files]) => {
+          const variantId = variantIds[Number(index)];
+          if (!variantId || !files.length) return;
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+          const formData = new FormData();
+          files.forEach((file: string | Blob) => {
+            formData.append("files", file);
+          });
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Upload failed');
-      }
+          formData.append("productId", productId);
+          formData.append("variantId", variantId);
 
-      // data.files will contain the URLs of the uploaded files
-      console.log('Uploaded files:', data.files);
-      
-      // You can update your product with these new image URLs here
-      
+          const response = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error("Upload failed");
+          }
+
+          return response.json();
+        }
+      );
+
+      const results = await Promise.all(uploadPromises);
+      console.log("All uploads completed:", results);
     } catch (error) {
-      console.error('Upload error:', error);
-      // Handle error appropriately
+      console.error("Error uploading images:", error);
     }
-  }
+  };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -134,26 +157,39 @@ const AddProductFormComponent = () => {
 
   async function onSubmit(values: ProductFormValues) {
     try {
-      setIsSubmitting(true);
-      const response = await fetch("/api/products", {
+      setIsSubmitting(true);  
+
+      const validatedData = productFormSchema.parse(values);
+      console.log("Validated data:", validatedData);
+
+      // First, create the product and variants
+      const response = await fetch("/api/dashboard/products", {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(validatedData),
         headers: {
           "Content-Type": "application/json",
         },
       });
 
+      console.log("Raw response: ", response)
       if (!response.ok) {
-        throw new Error("Failed to create product");
+        const errorData = await response.json();
+        console.error("API error: ", errorData);
+        throw new Error(errorData.error || "Failed to create product");
       }
 
       const data = await response.json();
-      console.log("Product created:", data);
       setProductId(data.productId);
-      console.log("productId:", data.productId)
+      setVariantIds(data.variantIds);
+
+      // Now that we have the IDs, upload the images
+      await uploadImagesForVariants();
+
+      // Clear the form and state
       form.reset();
+      setVariantImageFiles({});
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error in form submission:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -322,7 +358,7 @@ const AddProductFormComponent = () => {
                 variant="outline"
                 onClick={() =>
                   append({
-                    size: "",
+                    size: "M",
                     color: "",
                     stockQuantity: 0,
                     priceAdjustment: 0,
@@ -425,18 +461,22 @@ const AddProductFormComponent = () => {
                           </FormItem>
                         )}
                       />
-
-                      <div className="flex items-end">
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          onClick={() => remove(index)}
-                        >
-                          Remove Variant
-                        </Button>
-                      </div>
                     </div>
-                    <ImageUpload onUpload={handleUpload} />
+                    <ImageUpload
+                      onUpload={(files) => handleFileSelection(files, index)}
+                      maxFiles={2}
+                      acceptedTypes={["image/jpeg", "image/png", "image/webp"]}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-end items-end my-2">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={() => remove(index)}
+                      >
+                        Remove Variant
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}

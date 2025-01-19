@@ -25,7 +25,7 @@ import React, { useEffect, useState } from "react";
 
 interface ProductResponseInterface {
   id: string;
-  name: string;
+  productName: string;
   category: string;
   stock: number;
   price: number;
@@ -169,7 +169,7 @@ const ProductPage = () => {
                     {products.map((product) => (
                       <TableRow key={product.id}>
                         <TableCell className="text-left p-4">
-                          {product.name}
+                          {product.productName}
                         </TableCell>
                         <TableCell className="text-left p-4">
                           {product.category}

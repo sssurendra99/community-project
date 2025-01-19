@@ -75,8 +75,11 @@ const AddProductFormComponent = () => {
     }));
   };
 
-  const uploadImagesForVariants = async () => {
-    if (!productId || Object.keys(variantIds).length === 0) {
+  const handleImageUploads = async (
+    newProductId: string,
+    newVariantIds: VariantIds
+  ) => {
+    if (!newProductId || Object.keys(newVariantIds).length === 0) {
       console.error("Product or variant IDs not available");
       return;
     }
@@ -84,7 +87,7 @@ const AddProductFormComponent = () => {
     try {
       const uploadPromises = Object.entries(variantImageFiles).map(
         async ([index, files]) => {
-          const variantId = variantIds[Number(index)];
+          const variantId = newVariantIds[Number(index)];
           if (!variantId || !files.length) return;
 
           const formData = new FormData();
@@ -92,16 +95,19 @@ const AddProductFormComponent = () => {
             formData.append("files", file);
           });
 
-          formData.append("productId", productId);
+          formData.append("productId", newProductId);
           formData.append("variantId", variantId);
 
+          // Remove the Content-Type header - let the browser set it automatically
           const response = await fetch("/api/upload", {
             method: "POST",
             body: formData,
+            // Don't set Content-Type header here - it will be set automatically
           });
 
           if (!response.ok) {
-            throw new Error("Upload failed");
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Upload failed");
           }
 
           return response.json();
@@ -110,8 +116,10 @@ const AddProductFormComponent = () => {
 
       const results = await Promise.all(uploadPromises);
       console.log("All uploads completed:", results);
+      return results;
     } catch (error) {
       console.error("Error uploading images:", error);
+      throw error; // Re-throw to handle in the calling function
     }
   };
 
@@ -157,7 +165,7 @@ const AddProductFormComponent = () => {
 
   async function onSubmit(values: ProductFormValues) {
     try {
-      setIsSubmitting(true);  
+      setIsSubmitting(true);
 
       const validatedData = productFormSchema.parse(values);
       console.log("Validated data:", validatedData);
@@ -171,7 +179,6 @@ const AddProductFormComponent = () => {
         },
       });
 
-      console.log("Raw response: ", response)
       if (!response.ok) {
         const errorData = await response.json();
         console.error("API error: ", errorData);
@@ -179,15 +186,22 @@ const AddProductFormComponent = () => {
       }
 
       const data = await response.json();
-      setProductId(data.productId);
-      setVariantIds(data.variantIds);
 
-      // Now that we have the IDs, upload the images
-      await uploadImagesForVariants();
+      // Instead of setting state and immediately using it,
+      // pass the IDs directly to the upload function
+      try {
+        // Handle image uploads
+        await handleImageUploads(data.productId, data.variantIds);
 
-      // Clear the form and state
-      form.reset();
-      setVariantImageFiles({});
+        // Success - clear form and state
+        form.reset();
+        setVariantImageFiles({});
+        // You might want to show a success message here
+      } catch (uploadError) {
+        // Handle upload error - you might want to delete the product or show an error message
+        console.error("Failed to upload images:", uploadError);
+        // Show error message to user
+      }
     } catch (error) {
       console.error("Error in form submission:", error);
     } finally {

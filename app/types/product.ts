@@ -1,23 +1,23 @@
 export interface Product {
-    id: string;
-    productName: string;
-    description: string | null;
-    price: number;
-    sku: string;
-    stock: number;
-    brandId: string | null;
-    categoryId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-    isNew?: boolean;
-    colors?: string[];
-    brand?: {
-        name: string;
-    };
-    images?: {
-        publicUrl: string;
-        altText?: string;
-    }[];
+  id: string;
+  productName: string;
+  description: string | null;
+  price: number;
+  sku: string;
+  stock: number;
+  brandId: string | null;
+  categoryId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isNew?: boolean;
+  colors?: string[];
+  brand?: {
+    name: string;
+  };
+  images?: {
+    publicUrl: string;
+    altText?: string;
+  }[];
 }
 
 export interface ProductImage {
@@ -33,12 +33,12 @@ export interface ProductImage {
 }
 
 export interface Image {
-    url: string;
-    id: string;
+  url: string;
+  id: string;
 }
 
 export interface FormData {
-    categoryId: string;
+  categoryId: string;
 }
 
 export interface ProductVariant {
@@ -88,7 +88,7 @@ export interface CategoryFormData {
 export interface CategoryOption {
   id: string;
   name: string;
-  level?: number;  // For nested category display
+  level?: number; // For nested category display
   parentId?: string | null;
 }
 

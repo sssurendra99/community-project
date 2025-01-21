@@ -54,7 +54,6 @@ const SettingsPage = () => {
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="payment">Payment</TabsTrigger>
-          <TabsTrigger value="shipping">Shipping</TabsTrigger>
         </TabsList>
 
         <TabsContent value="general">
@@ -270,52 +269,6 @@ const SettingsPage = () => {
                       ...paymentSettings,
                       cod: checked
                     })}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="shipping">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Truck className="w-5 h-5 mr-2" />
-                Shipping Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Default Shipping Zone</label>
-                  <select className="w-full p-2 border rounded-md">
-                    <option>Domestic</option>
-                    <option>International</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Shipping Calculation</label>
-                  <select className="w-full p-2 border rounded-md">
-                    <option>Fixed Rate</option>
-                    <option>Weight Based</option>
-                    <option>Order Total Based</option>
-                  </select>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-medium">Free Shipping</h3>
-                    <p className="text-sm text-gray-500">Enable free shipping for orders above threshold</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Free Shipping Threshold</label>
-                  <input
-                    type="number"
-                    className="w-full p-2 border rounded-md"
-                    placeholder="Enter amount"
-                    defaultValue="100"
                   />
                 </div>
               </div>

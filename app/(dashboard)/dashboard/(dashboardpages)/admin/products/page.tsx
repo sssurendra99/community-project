@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getStatusColor } from "@/utils/getStatusColor";
-import { AlertTriangle, Package, PlusIcon } from "lucide-react";
+import { AlertTriangle, Edit2, Package, PlusIcon, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface ProductResponseInterface {
@@ -189,7 +189,24 @@ const ProductPage = () => {
                             {product.status}
                           </span>
                         </TableCell>
-                        <TableCell className="text-left p-4">Hello</TableCell>
+                        <TableCell className="text-left p-4">
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-[#5E81AC] hover:text-[#81A1C1]"
+                            >
+                              <Edit2 className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-red-500 hover:text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

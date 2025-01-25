@@ -7,10 +7,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Grid, List, LayoutGrid, Columns } from "lucide-react"
+} from "@/components/ui/select";
+import { Grid, List, LayoutGrid, Columns } from "lucide-react";
 import ProductCard from './ProductCard';
-import { Product } from '@/app/types/product';
+import { Product } from '@/types/product';
 
 const ProductGrid = ({ products} : {products: Product[]}) => {
   const [viewMode, setViewMode] = useState('grid-4')

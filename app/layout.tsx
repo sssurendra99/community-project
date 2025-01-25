@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
+import { TanstackProvider } from "@/components/providers/TanstackProvider";
 
 const inter = localFont({
   src: "../public/fonts/inter/Inter-VariableFont_opsz,wght.ttf",
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <TanstackProvider>{children}</TanstackProvider>
+      </body>
     </html>
   );
 }

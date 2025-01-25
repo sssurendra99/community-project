@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import EmailSubmission from "./ui-tools/EmailSubmission";
+import EmailSubmission from "../ui-tools/EmailSubmission";
 
 const Footer = () => {
   return (

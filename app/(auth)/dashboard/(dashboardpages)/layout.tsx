@@ -1,5 +1,5 @@
 import DashboardNavBar from '../../../../components/navigation/DashboardNavBar'
-import DashboardSideBar from '../../../../components/DashboardSideBar'
+import DashboardSideBar from '../../../../components/navigation/DashboardSideBar'
 import React, {ReactNode} from 'react'
 
 

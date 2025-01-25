@@ -1,7 +1,7 @@
 import ProductGrid from '@/components/ui-tools/ProductGridComponent';
 import React from 'react';
-import { prisma} from '../../../../../lib/prisma';
-import { Product } from '@/app/types/product';
+import { prisma} from '../../../../../lib/providers/prisma';
+import { Product } from '@/types/product';
 
 async function getProducts(): Promise<Product[]> {
   const products = await prisma.product.findMany({

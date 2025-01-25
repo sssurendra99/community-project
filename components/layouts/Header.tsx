@@ -1,7 +1,7 @@
 import { PhoneCallIcon, PhoneIcon } from "lucide-react";
 import React from "react";
-import SearchBar from "./ui-tools/SearchBar";
-import MainNavBar from "./navigation/MainNavBar";
+import SearchBar from "../ui-tools/SearchBar";
+import MainNavBar from "../navigation/MainNavBar";
 
 const Header = () => {
   return (

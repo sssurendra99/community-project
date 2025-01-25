@@ -19,16 +19,16 @@ const MainNavBar = () => {
       <Link href="/collections/denim" className="px-4">
         DENIM
       </Link>
-      <Link href="/" className="px-4">
+      <Link href="/collections/scylla-zelus" className="px-4">
         SCYLLA ZELUS
       </Link>
       <Link href="/collections/men" className="px-4">
         SHOP MEN
       </Link>
-      <Link href="/" className="px-4">
+      <Link href="/collections/50-80" className="px-4">
         50% -70% OFF
       </Link>
-      <Link href="/" className="px-4">
+      <Link href="/collections/angel-club" className="px-4">
         ANGEL CLUB
       </Link>
     </div>

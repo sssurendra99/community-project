@@ -1,8 +1,14 @@
+'use client'
+
 import AccordionComponent from '@/components/ui-tools/AccordionComponent';
 import BreadCrumbComponent from '@/components/ui-tools/BreadCrumbComponent';
+import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react'
 
 const CollectionLayout = ({children}: {children: ReactNode}) => {
+
+  const pathname = usePathname()
+  console.log("Pathname: ", pathname.split("/").at(-1))
   return (
     <div className='lg:max-w-[1200px] m-auto'>
         <div className='py-5'>

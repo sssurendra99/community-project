@@ -1,4 +1,4 @@
-import ProductGrid from '@/app/components/ui-tools/ProductGridComponent';
+import ProductGrid from '@/components/ui-tools/ProductGridComponent';
 import React from 'react';
 import { prisma} from '../../../../../lib/prisma';
 import { Product } from '@/app/types/product';

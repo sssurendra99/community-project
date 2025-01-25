@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddCategoryFormComponent from "@/app/components/forms/AddCategoryFormComponent";
+import AddCategoryFormComponent from "@/components/forms/AddCategoryFormComponent";
 
 interface CategoryResponseInterface {
   id: string;

@@ -1,5 +1,5 @@
-import AccordionComponent from '@/app/components/ui-tools/AccordionComponent';
-import BreadCrumbComponent from '@/app/components/ui-tools/BreadCrumbComponent';
+import AccordionComponent from '@/components/ui-tools/AccordionComponent';
+import BreadCrumbComponent from '@/components/ui-tools/BreadCrumbComponent';
 import React, { ReactNode } from 'react'
 
 const CollectionLayout = ({children}: {children: ReactNode}) => {

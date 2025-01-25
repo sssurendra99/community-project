@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import ImageUpload from "../ImageUpload";
+import ImageUpload from "../ui-tools/ImageUpload";
 
 const variantSchema = z.object({
   size: z.enum(["XS", "S", "M", "L", "XL", "XXL"]),

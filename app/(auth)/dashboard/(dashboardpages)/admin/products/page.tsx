@@ -1,7 +1,7 @@
 "use client";
 
-import AddBrandFormComponent from "@/app/components/forms/AddBrandFormComponent";
-import AddProductFormComponent from "@/app/components/forms/AddProductFormComponent";
+import AddBrandFormComponent from "@/components/forms/AddBrandFormComponent";
+import AddProductFormComponent from "@/components/forms/AddProductFormComponent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

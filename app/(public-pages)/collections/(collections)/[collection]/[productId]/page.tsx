@@ -1,16 +1,24 @@
 'use client'
+
+import { useParams } from 'next/navigation'
 import { useProductById } from '@/features/hooks/products'
-import { useRouter } from 'next/router'
-import React from 'react'
 
 const ProductPage = () => {
-  const router = useRouter()
-  const { productId } = router.query;
-  const {data } = useProductById({ productId: productId as string })
+  const params = useParams()
+  const productId = params.productId as string
+  const { data, isLoading, error } = useProductById({ productId })
+
+  console.log('productId:', productId) // Debug log
+  console.log('data:', data) // Debug log
+
+  if (!productId) return <div>No product ID provided</div>
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error loading product: {error.message}</div>
+  if (!data) return <div>Product not found</div>
 
   return (
     <div>{data.productName}</div>
   )
 }
 
-export default ProductPage;
+export default ProductPage

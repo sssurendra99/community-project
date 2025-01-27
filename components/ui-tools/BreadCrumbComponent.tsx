@@ -33,7 +33,7 @@ const BreadCrumbComponent = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           {pathnames.map((link, index) => {
-            let path = `/${pathnames.slice(0, index + 1).join("/")}`;
+            const path = `/${pathnames.slice(0, index + 1).join("/")}`;
             return (
               <React.Fragment key={index}>
                 <BreadcrumbItem>

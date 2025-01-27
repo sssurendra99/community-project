@@ -11,11 +11,21 @@ import {
 import { Grid, List, LayoutGrid, Columns } from "lucide-react";
 import ProductCard from './ProductCard';
 import { Product } from '@/types/product';
+import { usePathname } from 'next/navigation';
 
 const ProductGrid = ({ products} : {products: Product[]}) => {
   const [viewMode, setViewMode] = useState('grid-4')
   const [itemsPerPage, setItemsPerPage] = useState(20)
   const [sortBy, setSortBy] = useState('date-new')
+
+  const pathname = usePathname();
+  const currentPath: string = pathname
+    .split("/")
+    .filter((path) => path)
+    .slice(-1)
+    .toString();
+  const currentItem: string =
+    currentPath[0].toUpperCase() + currentPath.slice(1);
 
   const handleItemsPerPageChange = (value: string) => {
     setItemsPerPage(Number(value));
@@ -34,7 +44,7 @@ const ProductGrid = ({ products} : {products: Product[]}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col justify-between mb-6">
-        <h1 className="text-2xl font-bold border-b-[1px] pb-5 tracking-wider">NEW ARRIVALS</h1>
+        <h1 className="text-2xl font-bold border-b-[1px] pb-5 tracking-wider">{currentItem}</h1>
         
         {/* Filters section. */}
         <div className="flex flex-row items-center justify-between text-xs">
@@ -100,7 +110,7 @@ const ProductGrid = ({ products} : {products: Product[]}) => {
           </div>
         </div>
       </div>
-
+    
       <div className={getGridClass()}>
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />

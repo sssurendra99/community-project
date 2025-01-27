@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/providers/prisma";
 import { stockStatusMapper } from "@/utils/stockstatusmapper";
 import { ClothSize, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";

@@ -3,7 +3,7 @@ import { get } from "@/utils/api";
 
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await get("/products");
-  return response;
+  return response as Product[];
 };
 
 export const fetchProduct = async ({
@@ -12,5 +12,5 @@ export const fetchProduct = async ({
   productId: string
 }) => {
   const response = await get(`/products/${productId}`);
-  return response;
+  return response as Product;
 };

@@ -11,7 +11,7 @@ export const useProducts = () => {
 export const useProductById = ({ productId }: { productId: string }) => {
   return useQuery({
     queryKey: ["product", productId],
-    queryFn: () => fetchProduct({productId}),
+    queryFn: () => fetchProduct({ productId }),
     enabled: !!productId,
   });
 };

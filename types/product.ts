@@ -18,6 +18,7 @@ export interface Product {
     publicUrl: string;
     altText?: string;
   }[];
+  variants?: ProductVariant[];
 }
 
 export interface ProductImage {

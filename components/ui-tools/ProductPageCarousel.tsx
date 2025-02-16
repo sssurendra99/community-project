@@ -1,62 +1,51 @@
-import React from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface CarouselProps {
   images: { publicUrl: string; altText?: string }[];
 }
 
 export const ProductPageCarousel: React.FC<CarouselProps> = ({ images }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel();
-
-  const scrollPrev = React.useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = React.useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
   return (
-    <Card className="relative w-full max-w-3xl mx-auto overflow-hidden">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
+    <div className="w-full relative">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <CarouselContent>
           {images.map((image, index) => (
-            <div 
-              className="flex-[0_0_100%] min-w-0 relative" 
-              key={index}
-            >
-              <img
-                src={image.publicUrl}
-                alt={image.altText || `Product Image ${index + 1}`}
-                className="w-full h-auto object-cover aspect-video rounded-none"
-              />
-            </div>
+            <CarouselItem key={index}>
+              <div className="p-0">
+                <Card className="border-0 shadow-none">
+                  <CardContent className="relative p-0">
+                    <img
+                      src={image.publicUrl}
+                      alt={image.altText || `Product Image ${index + 1}`}
+                      className="w-full h-auto object-cover rounded-none"
+                      style={{ aspectRatio: "2/3" }}
+                      sizes="(min-width: 2000px) 1500px, (min-width: 1200px) 1200px, (min-width: 768px) calc((100vw - 30px) / 2), calc(100vw - 20px)"
+                      srcSet={`${image.publicUrl} 1200w, ${image.publicUrl} 1500w`}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
           ))}
-        </div>
-      </div>
-      
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/80 hover:bg-white/90"
-        onClick={scrollPrev}
-      >
-        <ChevronLeft className="h-4 w-4" />
-        <span className="sr-only">Previous slide</span>
-      </Button>
+        </CarouselContent>
 
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white/80 hover:bg-white/90"
-        onClick={scrollNext}
-      >
-        <ChevronRight className="h-4 w-4" />
-        <span className="sr-only">Next slide</span>
-      </Button>
-    </Card>
+        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90 rounded-full p-2 shadow-md" />
+        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white/90 rounded-full p-2 shadow-md" />
+      </Carousel>
+    </div>
   );
 };

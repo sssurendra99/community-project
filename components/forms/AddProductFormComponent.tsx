@@ -110,7 +110,8 @@ const AddProductFormComponent = () => {
             throw new Error(errorData.error || "Upload failed");
           }
 
-          return response.json();
+          const uploadResult = response.json();
+          return uploadResult;
         }
       );
 

@@ -15,6 +15,7 @@ export async function GET(
       include: {
         brand: true,
         images: true,
+        variants: true,
       },
     });
 
@@ -45,6 +46,15 @@ export async function GET(
       images: product.images.map(({ publicUrl, altText }) => ({
         publicUrl,
         altText: altText || undefined,
+      })),
+      variants: product.variants.map(variant => ({
+        id: variant.id,
+        productId: variant.productId,
+        size: variant.size,
+        color: variant.color,
+        stockQuantity: variant.stockQuantity,
+        priceAdjustment: variant.priceAdjustment ? parseFloat(variant.priceAdjustment.toString()) : null,
+        sku: variant.sku,
       })),
     };
 

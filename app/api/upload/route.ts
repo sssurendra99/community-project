@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
+import { prisma } from "@/lib/providers/prisma";
+
+const saveImageMetadataToDatabase = async (
+  files: { filename: string; filepath: string; publicUrl: string }[],
+  productId: string,
+  variantId: string
+) => {
+  try {
+    const imageRecords = files.map((file, index) => ({
+      productId,
+      variantId,
+      filename: file.filename,
+      filepath: file.filepath,
+      publicUrl: file.publicUrl,
+      displayOrder: index,
+      isPrimary: index === 0, // Set the first image as primary
+    }));
+
+    await prisma.productImage.createMany({
+      data: imageRecords,
+    });
+
+    console.log("Image metadata saved to database");
+  } catch (error) {
+    console.error("Error saving image metadata to database:", error);
+    throw error;
+  }
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,10 +82,17 @@ export async function POST(request: NextRequest) {
           filePath
         );
         
-        return `/${relativePath.replace(/\\/g, '/')}`;
+        // return `/${relativePath.replace(/\\/g, '/')}`;
+        const publicUrl = `/${relativePath.replace(/\\/g, '/')}`;
+        return {
+          filename: fileName,
+          filepath: filePath,
+          publicUrl: publicUrl,
+        };
       })
     );
-
+    
+    await saveImageMetadataToDatabase(uploadedFiles, productId.toString(), variantId.toString());
     return NextResponse.json({
       success: true,
       files: uploadedFiles,

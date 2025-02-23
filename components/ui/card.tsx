@@ -2,14 +2,19 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+// Added variant for the card component without shadow
+type CardProps = React.HTMLAttributes<HTMLDivElement> & {
+  variant?: "default" | "noShadow"
+}
+
 const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  HTMLDivElement, CardProps
+>(({ className, variant = "default", ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border bg-card text-card-foreground shadow",
+      "rounded-xl bg-card text-card-foreground",
+      variant === "default" && "shadow border",
       className
     )}
     {...props}

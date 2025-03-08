@@ -6,7 +6,7 @@ import React from 'react'
 const SearchBar = () => {
   return (
     <div className="flex items-center space-x-2">
-      <Input type="text" className="px-3 py-2 w-80 rounded-none" placeholder="Search..." />
+      <Input type="text" className="px-3 py-2 w-40 rounded-none" placeholder="Search..." />
       <Button className="px-3 py-2 rounded-none">
         <SearchIcon />
       </Button>

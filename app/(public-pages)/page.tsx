@@ -68,11 +68,12 @@ export default async function Home() {
         {categories.map((category, index) => {
           return (
             <div key={index} className="bg-slate-800 text-white h-96 justify-center flex m-2 items-center">
-              <h1>{category.toUpperCase()}</h1>
+              <h1>{category.toUpperCase()}</h1> 
             </div>
           );
         })}
       </div>
+      
     </>
   );
 }

@@ -14,3 +14,13 @@ export const fetchProduct = async ({
   const response = await get(`/products/${productId}`);
   return response as Product;
 };
+
+export const fetchProductsByCategory = async ({
+  categoryId,
+}: {
+  categoryId: string
+}) => {
+  const response = await get(`/products?categoryId=${categoryId}`);
+  return response as Product[];
+}
+

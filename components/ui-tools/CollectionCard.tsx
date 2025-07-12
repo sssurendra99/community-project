@@ -14,7 +14,7 @@ export default function CollectionCard({
       {/* Image taking full card width */}
       <div className="w-full overflow-hidden">
         <Image
-          src={`/temp/collection-${collection.slug}.jpg`}
+          src={`/collections/collection-${collection.slug}.png`}
           alt={collection.name}
           width={500}
           height={500}

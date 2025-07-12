@@ -18,10 +18,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const SettingsPage = () => {
   const [storeSettings, setStoreSettings] = useState({
-    storeName: 'My Store',
-    storeEmail: 'store@example.com',
+    storeName: 'WhereMe',
+    storeEmail: 'store@WhereMe.com',
     phoneNumber: '+1 234 567 8900',
-    address: '123 Store Street',
+    address: '122/1B, University Road, Pambahinna, Sri Lanka  ',
     currency: 'USD',
     timezone: 'UTC-5'
   });

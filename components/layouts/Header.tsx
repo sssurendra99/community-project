@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div>
       <div className="flex justify-between p-4 items-center">
-        <div className="text-3xl font-extrabold">WithMe</div>
+        <div className="text-3xl font-extrabold tracking-wider">WearMe</div>
         <div>
           <p className="flex flex-row p-1 items-center">
             Customer Service{" "}

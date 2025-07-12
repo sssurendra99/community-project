@@ -12,7 +12,7 @@ export const ErrorCard = () => {
             <CardFooter>
                 <BackButton
                 label="Back to login"
-                href="/auth/login"
+                href="/login"
                 />
             </CardFooter>
         </Card>

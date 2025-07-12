@@ -1,10 +1,18 @@
+"use client"
 import { PhoneIcon, ShoppingBag } from "lucide-react";
 import React from "react";
 import SearchBar from "../ui-tools/SearchBar";
 import MainNavBar from "../navigation/MainNavBar";
 import Link from "next/link";
+import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
+import { logout } from "@/action/logout";
 
-const Header = () => {
+const Header =() => {
+  const {data: session} = useSession();
+  const onclick = () => {
+    logout();
+  }
   return (
     <div>
       <div className="flex justify-between p-4 items-center w-full">
@@ -25,9 +33,17 @@ const Header = () => {
               <ShoppingBag className="w-5 text-slate-700 hover:scale-105" />
               <Link href="#" className="p-2">Shopping Cart</Link>
             </span>
-            <span className="">
-            <Link href="/auth/login" className="py-2">Sign In or Create an Account</Link>
-            </span>
+            <div className=" flex flex-row gap-x-3 ">
+              {session && session?.user ? (
+                <>
+                <Link href="/login">My account</Link> / <Link href="/register">Log out</Link> 
+                </>
+              ) : (
+                <>
+                <Link href="/login">Sign In  or</Link>  <Link href="/register">Create an Account</Link> 
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

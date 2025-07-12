@@ -1,11 +1,11 @@
 'use client'
 import { RoleGate } from "@/components/auth/role-gate";
-import { FormSuccess } from "@/components/form-success";
+import { FormSuccess } from "@/components/FormSuccess";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserRole } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { admin } from "@/actions/admin";
+import { admin } from "@/action/admin";
 
 const AdminPage = () => {
     const onServerActionClick = () => {

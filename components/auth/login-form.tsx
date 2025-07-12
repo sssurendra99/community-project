@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { FormError } from '@/components/FormError';
 import { Button } from '@/components/ui/button';
 import { FormSuccess } from '@/components/FormSuccess';
+import Link from 'next/link';
 
 import { 
     Form,
@@ -43,7 +44,7 @@ export const LoginForm = () => {
         <CardWrapper
         headerTitle="LOGIN"
         headerLabel="Please login below"
-        backButtonHref="/auth/register"
+        backButtonHref="/register"
         backButtonLabel="Don't have an account"
         showSocial
         >
@@ -83,6 +84,15 @@ export const LoginForm = () => {
                                         className=""
                                         />
                                     </FormControl>
+                                    <Button 
+                                size='sm'
+                                variant='link'
+                                asChild
+                                className='px-0 font-normal'>
+                                    <Link href='/reset'>
+                                    Forgot password?
+                                    </Link>
+                                </Button>
                                     <FormMessage/>
                                 </FormItem>
                             )}

@@ -15,9 +15,9 @@ import {
 import { CardWrapper } from "./card-wrapper";
 import {Input} from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {FormError} from '@/components/form-error';
-import {FormSuccess} from '@/components/form-success';
-import { reset } from '@/actions/reset';
+import {FormError} from '@/components/FormError';
+import {FormSuccess} from '@/components/FormSuccess';
+import { reset } from '@/action/reset';
 
 
 export const ResetForm = () => {
@@ -51,7 +51,7 @@ export const ResetForm = () => {
         <CardWrapper
         headerLabel="Forgot your password!"
         backButtonlabel="Back to login"
-        backButtonHref="/auth/login"
+        backButtonHref="/login"
         >
             <Form{...form}>
             <form 

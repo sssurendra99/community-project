@@ -1,4 +1,4 @@
-//Server component
+// Server component
 
 import { ExtendedUser } from "@/next-auth";
 import { CardHeader, Card, CardContent } from "./ui/card";
@@ -14,7 +14,7 @@ export const UserInfo = ({
 }: UserInfoProps) => {
     console.log(user)
     return(
-        <Card className="w-[600px] shadow-md">
+        <Card className="w-[600px] border-none shadow-none">
             <CardHeader>
                 <p className="text-2xl font-semibold text-center">
                 {label}
@@ -22,15 +22,15 @@ export const UserInfo = ({
             </CardHeader>
             <CardContent>
                 <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <p className="text-sm fort-medium">ID</p>
-                    <p className="truncate text-sm max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
-                        {user?.id}
-                    </p>
-                </div>
-                <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                     <p className="text-sm fort-medium">Name</p>
                     <p className="truncate text-sm max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
                         {user?.name}
+                    </p>
+                </div>
+                <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <p className="text-sm fort-medium">Address</p>
+                    <p className="truncate text-sm max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                        {user?.address || "none"}
                     </p>
                 </div>
                 <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">

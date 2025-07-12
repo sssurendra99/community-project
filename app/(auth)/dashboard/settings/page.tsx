@@ -42,7 +42,6 @@ const SettingsPage = () => {
     
     const onclick = (values: z.infer<typeof SettingsShema>) => {
         startTransition(() => {
-            console.log("first")
         settings(values)
         .then((data)=>{
             if (data.error) {
@@ -51,16 +50,13 @@ const SettingsPage = () => {
             if (data.success) {
                 update();
                 setSuccess(data.success)
-                console.log(values);
             }
         })
         .catch(() => setError("something went wrong!"))
     })
     }
-
-
     return ( 
-        <Card className="w-[600px]">
+        <Card className="w-[600px] mr-4">
             <CardHeader>
                 <p>
                     Settings
@@ -198,7 +194,7 @@ const SettingsPage = () => {
                                                     Admin
                                                 </SelectItem>
                                                 <SelectItem value={UserRole.CUSTOMER}>
-                                                    User
+                                                    CUSTOMER
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

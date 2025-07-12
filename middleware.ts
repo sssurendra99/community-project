@@ -23,7 +23,7 @@ export default auth((req)=>{
   };
 
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL('/auth/login',nextUrl));
+    return Response.redirect(new URL('/login',nextUrl));
   }
   return undefined;
 })
@@ -31,4 +31,4 @@ export default auth((req)=>{
 // Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+}       

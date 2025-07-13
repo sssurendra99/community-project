@@ -23,4 +23,3 @@ export const fetchProductsByCategory = async ({
   const response = await get(`/products?categoryId=${categoryId}`);
   return response as Product[];
 }
-

@@ -14,9 +14,9 @@ import ProductCard from "@/components/ui-tools/ProductCard";
 
 export default async function Home() {
 
-  // const data: Product[] = await fetchProducts()
+  const data: Product[] = await fetchProducts()
 
-  // const newArrivals: Product[] = data.slice(0, 4);
+  const newArrivals: Product[] = data.slice(0, 4);
 
   const categories = [
     {
@@ -178,11 +178,11 @@ export default async function Home() {
       </div>
       {/* New Arrivals Product Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 items-center w-fit m-auto mb-10">
-      {/* {
+      {
         newArrivals.map((product) => (
           <ProductCard product={product} key={product.id} />
         ))
-      } */}
+      }
       </div>
 
       {/* Accessories banner section */}

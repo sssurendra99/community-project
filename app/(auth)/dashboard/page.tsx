@@ -22,7 +22,7 @@ const Dashboard = () => {
     manager: { password: 'manager123', role: 'manager' }
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);

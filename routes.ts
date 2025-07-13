@@ -5,7 +5,8 @@ export const publicRoutes = [
     "/error",
     "/reset",
     "/collections",
-    "/dashboard"
+    "/dashboard",
+    "/api/products/*"
 ];
 
 export const authRoutes = [

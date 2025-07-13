@@ -44,9 +44,9 @@ export default async function CollectionPage({ params } : CollectionPageProps) {
   //         colors: ["#8B4513", "#D2B48C"]
   //     },
   // ]
-  // console.log("")
-  // console.log("categories", categories)
-  // console.log("category names:", categories.map(category => category.name))
+  console.log("")
+  console.log("categories", categories)
+  console.log("category names:", categories.map(category => category.name))
   return (
     <div>
       <ProductGrid products={categoryProducts} category={currentCategory}/>

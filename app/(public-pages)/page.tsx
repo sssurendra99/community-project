@@ -12,7 +12,6 @@ import { fetchProducts } from "@/features/queries/product-queries";
 import { Product } from "@/types/product";
 import ProductCard from "@/components/ui-tools/ProductCard";
 
-// Temporary categories.
 export default async function Home() {
 
   const data: Product[] = await fetchProducts()

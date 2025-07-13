@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center p-5 text-sm divide-y">
-          <p>&copy; 2025 WITHME</p>
+          <p>&copy; 2025 WEARME</p>
         </div>
       </div>
     </div>

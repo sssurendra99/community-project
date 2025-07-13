@@ -28,7 +28,7 @@ const MainNavBar = () => {
       <Link href="/collections/50-80" className="px-4">
         50% -70% OFF
       </Link>
-      <Link href="/collections/angel-club" className="px-4">
+      <Link href="/pages/angel-club" className="px-4">
         ANGEL CLUB
       </Link>
     </div>

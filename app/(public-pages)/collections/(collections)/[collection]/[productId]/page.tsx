@@ -1,28 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { useProductById } from "@/features/hooks/products";
+import { useCart } from "@/lib/hooks/useCart";
 import { ProductPageCarousel } from "@/components/ui-tools/ProductPageCarousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Input } from "postcss";
-import { Label } from "recharts";
+import { toast } from "sonner"; // Assuming you're using sonner for notifications
 
 const ProductPage = () => {
   const params = useParams();
   const productId = params.productId as string;
   const { data, isLoading, error } = useProductById({ productId });
+  const { addToCart, isLoading: cartLoading } = useCart();
 
-  console.log("productId:", productId); // Debug log
-  console.log("data:", data); // Debug log
+  const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
 
   if (!productId) return <div>No product ID provided</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -30,7 +24,39 @@ const ProductPage = () => {
   if (!data) return <div>Product not found</div>;
 
   const product = data;
-  console.log(product.description);
+
+  const handleAddToCart = () => {
+    if (cartLoading) return;
+
+    if (!product) return;
+    const selectedVar = product.variants?.find((v) => v.id === selectedVariant);
+    const availableStock = selectedVar
+      ? selectedVar.stockQuantity
+      : product.stock;
+
+    if (availableStock < quantity) {
+      toast.error("Not enough stock available");
+      return;
+    }
+
+    const cartItem = {
+      productId: product.id,
+      variantId: selectedVariant || undefined,
+      productName: product.productName,
+      price: selectedVar
+        ? product.price + (selectedVar.priceAdjustment || 0)
+        : product.price,
+      quantity,
+      size: selectedVar?.size || undefined,
+      color: selectedVar?.color || undefined,
+      image: product.images?.[0]?.publicUrl,
+      sku: selectedVar?.sku || product.sku,
+      stock: availableStock,
+    };
+
+    addToCart(cartItem);
+    toast.success("Added to cart!");
+  };
 
   return (
     <>
@@ -52,31 +78,70 @@ const ProductPage = () => {
               <span className="text-xl font-semibold">
                 Rs {product.price.toString()}
               </span>
+
+              {/* Variant Selection */}
+              {product.variants && product.variants.length > 0 && (
+                <div className="flex flex-col space-y-2">
+                  <label className="text-sm font-medium">Size:</label>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((variant) => (
+                      <button
+                        key={variant.id}
+                        onClick={() => setSelectedVariant(variant.id)}
+                        className={`px-4 py-2 border rounded hover:bg-gray-100 ${
+                          selectedVariant === variant.id
+                            ? "border-black bg-black text-white"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        {variant.size || "N/A"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quantity Selection */}
               <div className="flex flex-col space-y-2">
-                <div className="flex flex-wrap gap-2">
-                  {(product.variants || []).map((variant, index) => (
-                    <button
-                      key={variant.id}
-                      className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
-                    >
-                      {variant.size || "N/A"}
-                    </button>
-                  ))}
+                <label className="text-sm font-medium">Quantity:</label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-1 border border-gray-300 rounded">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
+
               <div className="flex flex-col space-y-2">
                 <span className="text-sm">
                   {product.stock > 0 ? "In Stock" : "Out of Stock"}
                 </span>
-                <button className="px-6 py-2 w-fit bg-black text-white hover:bg-gray-800 font-medium">
+                <button
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
+                  className="px-6 py-2 w-fit bg-black text-white hover:bg-gray-800 font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
                   ADD TO CART
                 </button>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Tabs section remains the same */}
         <Tabs
-          defaultValue="account"
+          defaultValue="description"
           className="w-full mt-24 border-none shadow-none rounded-none"
         >
           <TabsList className="grid-cols-2 border-b border-gray-300 w-full flex gap-8 bg-transparent py-2">

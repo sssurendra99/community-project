@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   LogIn,
   ShoppingCart,
+  History,
 } from "lucide-react";
 import SearchBar from "../ui-tools/SearchBar";
 import MainNavBar from "../navigation/MainNavBar";
@@ -28,16 +29,16 @@ const Header = () => {
     try {
       setIsLoggingOut(true);
       setDropdownOpen(false);
-      
+
       // Call your custom logout action
       await logout();
-      
+
       // Update session to null
       await update(null);
-      
+
       // Sign out from NextAuth
       await signOut({ redirect: false });
-      
+
       // Refresh the page
       router.refresh();
     } catch (error) {
@@ -51,7 +52,10 @@ const Header = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -72,153 +76,118 @@ const Header = () => {
   return (
     <>
       <header className="border-b border-gray-200 shadow-sm bg-white">
-        <div className="flex justify-between items-center px-6 py-4">
-          <div className="text-3xl font-extrabold tracking-wider">
-            <Link href="/" className="text-inherit hover:text-gray-700">
-              WearMe
-            </Link>
-          </div>
-
-          <div className="text-right">
-            <p className="flex items-center justify-end text-sm text-gray-600">
+        <div className="relative flex justify-between items-center px-6 py-4">
+          {/* Left: Customer Service */}
+          <div className="flex-1">
+            <div className="flex items-center text-sm text-gray-600">
               Customer Service
               <span className="ml-2 flex items-center">
                 <PhoneIcon className="w-4 h-4 mx-2" />
                 +94 77 23 44 555
               </span>
-              <div className="hidden md:block">
+              <div className="hidden md:block ml-4">
                 <SearchBar />
               </div>
-            </p>
+            </div>
           </div>
 
           {/* Center: Logo */}
-          <div className="text-3xl font-extrabold tracking-wider text-center absolute left-1/2 transform -translate-x-1/2">
-            WEARME
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Link href="/" className="text-3xl font-extrabold tracking-wider text-gray-900 hover:text-gray-700 transition-colors">
+              WEARME
+            </Link>
           </div>
 
-          {/* Right: Cart + Profile */}
-          <div className="flex items-center gap-4 ml-auto">
+          {/* Right: Cart + Orders History + Profile */}
+          <div className="flex-1 flex items-center justify-end gap-4">
             <Link
               href="/cart"
-              className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
             >
               <ShoppingCart className="w-6 h-6 text-gray-700" />
             </Link>
 
+            <Link
+              href="/orders-history"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+            >
+              <History className="w-6 h-6 text-gray-700" />
+            </Link>
+
+            {/* Profile Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+                className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+                disabled={isLoggingOut}
               >
                 <UserCircle className="w-6 h-6 text-gray-700" />
                 <span className="text-sm font-medium text-gray-700">
-                  {isAuthenticated ? "Admin" : "Guest"}
+                  {getUserDisplayName()}
                 </span>
+                <svg
+                  className={`w-4 h-4 text-gray-500 transition-transform ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
               </button>
 
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-1">
                   {isAuthenticated ? (
                     <>
                       <Link
                         href="/dashboard/admin"
-                        className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-gray-800"
+                        className="flex items-center px-4 py-2 hover:bg-gray-50 text-sm text-gray-800 transition-colors"
                         onClick={() => setDropdownOpen(false)}
                       >
-                        <LayoutDashboard className="w-4 h-4 mr-2" />
-                        Admin Dashboard
+                        <UserCircle className="w-4 h-4 mr-3 text-gray-500" />
+                        My Account
                       </Link>
+                      <hr className="my-1 border-gray-100" />
                       <button
                         onClick={handleLogOut}
-                        className="w-full flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-red-600"
+                        disabled={isLoggingOut}
+                        className="w-full flex items-center px-4 py-2 hover:bg-red-50 text-sm text-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Logout
+                        <LogOut className="w-4 h-4 mr-3" />
+                        {isLoggingOut ? "Logging out..." : "Log Out"}
                       </button>
                     </>
                   ) : (
-                    <Link
-                      href="/dashboard"
-                      className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-green-600"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Login
-                    </Link>
+                    <>
+                      <Link
+                        href="/login"
+                        className="flex items-center px-4 py-2 hover:bg-green-50 text-sm text-green-600 transition-colors"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <LogIn className="w-4 h-4 mr-3" />
+                        Sign In
+                      </Link>
+                      <Link
+                        href="/register"
+                        className="flex items-center px-4 py-2 hover:bg-blue-50 text-sm text-blue-600 transition-colors"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <UserCircle className="w-4 h-4 mr-3" />
+                        Create Account
+                      </Link>
+                    </>
                   )}
                 </div>
               )}
             </div>
           </div>
-        </div>
-
-        {/* Profile Dropdown */}
-        <div className="relative ml-6" ref={dropdownRef}>
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-            disabled={isLoggingOut}
-          >
-            <UserCircle className="w-6 h-6 text-gray-700" />
-            <span className="text-sm font-medium text-gray-700">
-              {getUserDisplayName()}
-            </span>
-          </button>
-
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    href="/dashboard/admin"
-                    className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-gray-800"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <UserCircle className="w-4 h-4 mr-2" />
-                    My Account
-                  </Link>
-                  {session?.user?.role === 'admin' && (
-                    <Link
-                      href="/dashboard/admin"
-                      className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-gray-800"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <LayoutDashboard className="w-4 h-4 mr-2" />
-                      Admin Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={handleLogOut}
-                    disabled={isLoggingOut}
-                    className="w-full flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-red-600 disabled:opacity-50"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {isLoggingOut ? 'Logging out...' : 'Log Out'}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-green-600"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm text-blue-600"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <UserCircle className="w-4 h-4 mr-2" />
-                    Create Account
-                  </Link>
-                </>
-              )}
-            </div>
-          )}
         </div>
       </header>
 

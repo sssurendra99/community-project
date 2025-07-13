@@ -2,9 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { useState } from "react";
 import { useProductById } from "@/features/hooks/products";
-import { useCart } from "@/lib/hooks/useCart";
 import { useCart } from "@/lib/hooks/useCart";
 import { ProductPageCarousel } from "@/components/ui-tools/ProductPageCarousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

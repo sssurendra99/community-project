@@ -12,7 +12,7 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "WhereMe",
+  title: "WearMe",
   description: "We sell cloths, women, men, discount, belihuloya",
 };
 

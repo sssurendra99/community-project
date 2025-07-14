@@ -36,7 +36,7 @@
 // middleware.ts (excluding API routes from matcher entirely)
 import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
-import { apiAuthPrefix, DEFAULT_LOGIN_REDIRECT, authRoutes, publicRoutes } from "@/routes";
+import { apiAuthPrefix, DEFAULT_LOGIN_REDIRECT, authRoutes, publicRoutes, collectionsPrefix } from "@/routes";
 
 const { auth } = NextAuth(authConfig);
 
@@ -45,11 +45,16 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isCollectionRoute = nextUrl.pathname.startsWith(collectionsPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   // Allow NextAuth API routes
   if (isApiAuthRoute) {
+    return undefined;
+  }
+
+  if (isCollectionRoute) {
     return undefined;
   }
 

@@ -36,7 +36,7 @@ const Footer = () => {
             <Link href="/pages/contactus" className="text-sm my-1">
               CONTACT US
             </Link>
-            <Link href="#" className="text-sm my-1">
+            <Link href="/pages/angel-club" className="text-sm my-1">
               ANGEL CLUB
             </Link>
           </div>

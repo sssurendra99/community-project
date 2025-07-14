@@ -13,6 +13,8 @@ interface CarouselProps {
 }
 
 export const ProductPageCarousel: React.FC<CarouselProps> = ({ images }) => {
+
+  console.log("ProductPageCarousel images:", images);
   return (
     <div className="w-full relative">
       <Carousel
@@ -29,7 +31,7 @@ export const ProductPageCarousel: React.FC<CarouselProps> = ({ images }) => {
                 <Card className="border-0 shadow-none">
                   <CardContent className="relative p-0">
                     <img
-                      src={image.publicUrl}
+                      src={image.publicUrl || `/public/uploads/products/d9a67791-bb29-432c-846d-da7df5c66680/d0ec43ac-4918-4351-aff1-d97c3a4d123a/1739380271235-web_0062__93A0010.webp`}
                       alt={image.altText || `Product Image ${index + 1}`}
                       className="w-full h-auto object-cover rounded-none"
                       style={{ aspectRatio: "2/3" }}
